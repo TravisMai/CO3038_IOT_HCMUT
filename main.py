@@ -36,35 +36,9 @@ client.loop_background()
 counter_sensor = 30
 counter_ai = 10
 while True:
-
     time.sleep(1)
-    readSerial()
-    # if splitData is not None:
-    #     if splitData[1] == "RT":
-    #         temp = splitData[2]
-    #     if splitData[1] == "RH":
-    #         humi = splitData[2]
-    #     if splitData[1] == "LUX":
-    #         lux = splitData[2]
-            
+    readSerial()            
     counter_sensor = counter_sensor - 1
-    # if counter_sensor <=0:
-    #     counter_sensor = 30
-    #     temp = random.randint(20,40)
-    #     client.publish("cambien1", temp)
-    #     humi = random.randint(0, 100)
-    #     client.publish("cambien2", humi)
-    #     lux = random.randint(0, 400)
-    #     client.publish("cambien3", lux)
-        # if splitData[1] == "RT":
-        #     temp = splitData[2]
-        #     client.publish("cambien1", temp)
-        # if splitData[1] == "RH":
-        #     humi = splitData[2]
-        #     client.publish("cambien2", humi)
-        # if splitData[1] == "LUX":
-        #     lux = splitData[2]
-        #     client.publish("cambien3", lux)
     if counter_sensor <=0:
         counter_sensor = 30
         lux = getLux()
