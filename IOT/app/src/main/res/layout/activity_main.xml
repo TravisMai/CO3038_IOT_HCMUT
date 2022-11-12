@@ -29,12 +29,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#e01e5a"
-            android:text="28\n*C"
+            android:text="Temp"
             android:textSize="50dp"
             android:textStyle="bold"
             android:textColor="#ffffff"
             android:gravity="center"
-            android:layout_margin="10dp">
+            android:layout_margin="5dp">
         </TextView>
         <TextView
             android:id="@+id/txtHumidity"
@@ -42,12 +42,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#36c5f0"
-            android:text="65\n%"
+            android:text="Humi"
             android:textSize="50dp"
             android:textStyle="bold"
             android:textColor="#ffffff"
             android:gravity="center"
-            android:layout_margin="10dp">
+            android:layout_margin="5dp">
         </TextView>
         <TextView
             android:id="@+id/txtLuxury"
@@ -55,12 +55,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#ecb22e"
-            android:text="76\nLux"
+            android:text="Lux"
             android:textSize="50dp"
             android:textStyle="bold"
             android:textColor="#ffffff"
             android:gravity="center"
-            android:layout_margin="10dp">
+            android:layout_margin="5dp">
         </TextView>
     </LinearLayout>
 
@@ -70,7 +70,7 @@
         android:layout_height="0dp"
         android:layout_weight="15"
         android:background="#4a154b"
-        android:text="null"
+        android:text="Simple AI"
         android:textSize="50dp"
         android:textStyle="bold"
         android:textColor="#ffffff"
