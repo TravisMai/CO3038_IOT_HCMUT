@@ -89,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 Log.d("TEST", topic + "***" + message.toString());
                 if(topic.contains("cambien1")){
-                    txtTemp.setText(message.toString()+"°C");
+                    txtTemp.setText(message.toString()+"\n°C");
                 }else if(topic.contains("cambien2")){
-                    txtHumi.setText(message.toString()+"%");
+                    txtHumi.setText(message.toString()+"\n%");
                 }else if(topic.contains("cambien3")){
-                    txtLux.setText(message.toString());
+                    txtLux.setText(message.toString()+"\nLux");
                 }else if(topic.contains("ai")){
                     txtAI.setText(message.toString());
                 }else if(topic.contains("nutnhan1")){
