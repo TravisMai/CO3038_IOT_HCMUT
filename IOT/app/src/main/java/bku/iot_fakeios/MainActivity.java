@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.icu.text.AlphabeticIndex;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.angads25.toggle.interfaces.OnToggledListener;
@@ -77,12 +78,14 @@ public class MainActivity extends AppCompatActivity {
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
-
+//                btnLED.setVisibility(View.INVISIBLE);
+//                btnLED2.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void connectionLost(Throwable cause) {
-
+//                btnLED.setVisibility(View.INVISIBLE);
+//                btnLED2.setVisibility(View.INVISIBLE);
             }
 
             @Override
