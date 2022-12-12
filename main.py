@@ -12,6 +12,7 @@ AIO_KEY = "aio_hZRZ47DHfsk67ZGpT99gIkWoHyPA"
 
 def connected(client):
     print("Ket noi thanh cong ...")
+    client.publish("signal", "1")
     for id in AIO_FEED_ID:
         client.subscribe(id)
 
@@ -20,6 +21,7 @@ def subscribe(client , userdata , mid , granted_qos):
 
 def disconnected(client):
     print("Ngat ket noi ...")
+    client.publish("signal", "0")
     sys.exit (1)
 
 def message(client , feed_id , payload):
