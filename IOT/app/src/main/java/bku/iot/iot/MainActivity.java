@@ -21,6 +21,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 class signal {
     public static String sign = "0";
+    public static int counter = 10;
 }
 public class MainActivity extends AppCompatActivity {
     MQTTHelper mqttHelper;
@@ -88,6 +89,20 @@ public class MainActivity extends AppCompatActivity {
         aTimer.schedule(aTask, 1000, 1000);
     }
     public void startMQTT(){
+        signal.counter = signal.counter - 1;
+        if (signal.counter<=0){
+            signal.counter = 10;
+            signal.sign = "0";
+        }
+//        if(signal.sign.equals("1")){
+//            txtC.setText("Connected");
+//            btn1.setEnabled(true);
+//            btn2.setEnabled(true);
+//        }else{
+//            txtC.setText("Disconnected");
+//            btn1.setEnabled(false);
+//            btn2.setEnabled(false);
+//        }
         mqttHelper = new MQTTHelper(this);
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override

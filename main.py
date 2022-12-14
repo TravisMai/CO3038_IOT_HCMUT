@@ -12,7 +12,7 @@ AIO_KEY = "aio_hZRZ47DHfsk67ZGpT99gIkWoHyPA"
 
 def connected(client):
     print("Ket noi thanh cong ...")
-    client.publish("signal", "1")
+    # client.publish("signal", "1")
     for id in AIO_FEED_ID:
         client.subscribe(id)
 
@@ -21,7 +21,7 @@ def subscribe(client , userdata , mid , granted_qos):
 
 def disconnected(client):
     print("Ngat ket noi ...")
-    client.publish("signal", "0")
+    # client.publish("signal", "0")
     sys.exit (1)
 
 def message(client , feed_id , payload):
@@ -37,7 +37,16 @@ client.connect()
 client.loop_background()
 counter_sensor = 30
 counter_ai = 10
+counter_signal = 5
 while True:
+    counter_signal = counter_signal - 1
+    if counter_signal <= 0:
+        counter_signal = 5
+        if client.is_connected():
+            client.publish("signal", "1")
+        else:
+            client.publish("signal", "0")
+
     time.sleep(1)
     readSerial()            
     counter_sensor = counter_sensor - 1
