@@ -22,6 +22,7 @@ import java.util.TimerTask;
 class signal {
     public static String sign = "0";
     public static int counter = 0;
+    public static String error_count = "0";
     public static boolean adaConnect = false;
 }
 public class MainActivity extends AppCompatActivity {
@@ -90,16 +91,23 @@ public class MainActivity extends AppCompatActivity {
                     signal.sign = "0";
                     sendDataMQTT("EmChes/feeds/signal","0");
                 }
-
+//                else{
+//                    if((!signal.adaConnect)&&(signal.counter<3)){
+//                        signal.error_count = signal.error_count + 1;
+//                    }
+//                }
             }
         };
-        aTimer.schedule(aTask, 1000, 15000);
+        aTimer.schedule(aTask, 10000, 15000);
     }
     public void startMQTT(){
         mqttHelper = new MQTTHelper(this);
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
+                if(signal.error_count.equals("1")){
+                    mqttHelper.connect();
+                }
                 signal.adaConnect = true;
                 signal.sign = "0";
                 sendDataMQTT("EmChes/feeds/signal","0");
@@ -107,8 +115,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void connectionLost(Throwable cause) {
+                signal.error_count = "1";
                 signal.adaConnect = false;
-                txtC.setText("Disconnected");
+                txtC.setText("Lost");
                 btn1.setEnabled(false);
                 btn2.setEnabled(false);
             }

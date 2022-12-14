@@ -3,8 +3,9 @@ import sys
 from Adafruit_IO import MQTTClient
 import random
 import time
-from simple_ai import *
+# from simple_ai import *
 from uart import *
+hostname = "google.com"
 
 AIO_FEED_ID = ["nutnhan1", "nutnhan2", "signal"]
 AIO_USERNAME = "EmChes"
@@ -26,8 +27,9 @@ def disconnected(client):
 
 def message(client , feed_id , payload):
     print("Data is from: " + feed_id + ", Payload: " + payload)
-    if (feed_id == "signal") and (payload=="0"):
-        client.publish("signal", "1")
+    if (feed_id == "signal"):
+        if (payload=="0"):
+            client.publish("signal", "1")
     else:        
         uart_write(payload)
 
@@ -40,7 +42,7 @@ client.connect()
 client.loop_background()
 counter_sensor = 30
 counter_ai = 10
-counter_signal = 5
+counter_connect = 10
 while True:
     # counter_signal = counter_signal - 1
     # if counter_signal <= 0:
@@ -64,12 +66,12 @@ while True:
         temp = getTemp()
         client.publish("cambien1", temp)
 
-    counter_ai = counter_ai - 1
-    if counter_ai <=0:
-        counter_ai = 15
-        image_capture()
-        ai_result = image_detector()
-        client.publish("AI", ai_result)
+    # counter_ai = counter_ai - 1
+    # if counter_ai <=0:
+    #     counter_ai = 15
+    #     image_capture()
+    #     ai_result = image_detector()
+    #     client.publish("AI", ai_result)
 
     # readSerial()
     pass

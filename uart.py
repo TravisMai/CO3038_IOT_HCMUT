@@ -18,7 +18,6 @@ def getPort():
     return commPort
 mess = ""
 def processData(data):
-    # print("************************")
     data = data.replace("!", "")
     data = data.replace("#", "")
     global splitData
@@ -35,15 +34,12 @@ def processData(data):
         luxury = splitData[2]
 
 def getTemp():
-    # if temperature is not None:
     return temperature
 
 def getHumi():
-    # if humidity is not None:
     return humidity
 
 def getLux():
-    # if luxury is not None:
     return luxury
 
 def uart_write(data):
