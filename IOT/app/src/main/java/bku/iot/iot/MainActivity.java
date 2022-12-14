@@ -21,7 +21,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 class signal {
     public static String sign = "0";
-    public static int counter = 10;
+    public static int counter = 0;
+    public static boolean adaConnect = false;
 }
 public class MainActivity extends AppCompatActivity {
     MQTTHelper mqttHelper;
@@ -84,39 +85,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // TODO
+                if((signal.counter < 3)&&(signal.adaConnect)){
+                    signal.counter = signal.counter + 1;
+                    signal.sign = "0";
+                    sendDataMQTT("EmChes/feeds/signal","0");
+                }
+
             }
         };
-        aTimer.schedule(aTask, 1000, 1000);
+        aTimer.schedule(aTask, 1000, 15000);
     }
     public void startMQTT(){
-        signal.counter = signal.counter - 1;
-        if (signal.counter<=0){
-            signal.counter = 10;
-            signal.sign = "0";
-        }
-//        if(signal.sign.equals("1")){
-//            txtC.setText("Connected");
-//            btn1.setEnabled(true);
-//            btn2.setEnabled(true);
-//        }else{
-//            txtC.setText("Disconnected");
-//            btn1.setEnabled(false);
-//            btn2.setEnabled(false);
-//        }
         mqttHelper = new MQTTHelper(this);
         mqttHelper.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
-//                txtC.setText("Connected");
-//                btn1.setEnabled(true);
-//                btn2.setEnabled(true);
+                signal.adaConnect = true;
+                signal.sign = "0";
+                sendDataMQTT("EmChes/feeds/signal","0");
             }
 
             @Override
             public void connectionLost(Throwable cause) {
-//                txtC.setText("Disconnected");
-//                btn1.setEnabled(false);
-//                btn2.setEnabled(false);
+                signal.adaConnect = false;
+                txtC.setText("Disconnected");
+                btn1.setEnabled(false);
+                btn2.setEnabled(false);
             }
 
             @Override
@@ -127,8 +121,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if(topic.contains("signal") && message.toString().equals("1")) {
                     signal.sign = "1";
+                    signal.counter = 0;
                 }
-                if(signal.sign.equals("1")){
+                if(signal.sign.equals("1") && signal.adaConnect){
                     txtC.setText("Connected");
                     btn1.setEnabled(true);
                     btn2.setEnabled(true);
@@ -167,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        timer_isr();
     }
 
     ArrayList<String> buffer = new ArrayList<>();

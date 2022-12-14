@@ -6,13 +6,13 @@ import time
 from simple_ai import *
 from uart import *
 
-AIO_FEED_ID = ["nutnhan1", "nutnhan2"]
+AIO_FEED_ID = ["nutnhan1", "nutnhan2", "signal"]
 AIO_USERNAME = "EmChes"
-AIO_KEY = "aio_hZRZ47DHfsk67ZGpT99gIkWoHyPA"
+AIO_KEY = "aio_uQEH965f9YkdGRzsElbmRiGS8zJ9"
 
 def connected(client):
     print("Ket noi thanh cong ...")
-    # client.publish("signal", "1")
+    client.publish("signal", "1")
     for id in AIO_FEED_ID:
         client.subscribe(id)
 
@@ -26,7 +26,10 @@ def disconnected(client):
 
 def message(client , feed_id , payload):
     print("Data is from: " + feed_id + ", Payload: " + payload)
-    uart_write(payload)
+    if (feed_id == "signal") and (payload=="0"):
+        client.publish("signal", "1")
+    else:        
+        uart_write(payload)
 
 client = MQTTClient(AIO_USERNAME , AIO_KEY)
 client.on_connect = connected
@@ -39,13 +42,13 @@ counter_sensor = 30
 counter_ai = 10
 counter_signal = 5
 while True:
-    counter_signal = counter_signal - 1
-    if counter_signal <= 0:
-        counter_signal = 5
-        if client.is_connected():
-            client.publish("signal", "1")
-        else:
-            client.publish("signal", "0")
+    # counter_signal = counter_signal - 1
+    # if counter_signal <= 0:
+    #     counter_signal = 5
+    #     if client.is_connected():
+    #         client.publish("signal", "1")
+    #     else:
+    #         client.publish("signal", "0")
 
     time.sleep(1)
     readSerial()            
