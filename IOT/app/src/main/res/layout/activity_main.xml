@@ -34,7 +34,7 @@
                 android:textColor="#000000"
                 android:textSize="12dp"
                 android:textStyle="bold"/>
-            <TextView
+            <Button
                 android:id="@+id/txtTemp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

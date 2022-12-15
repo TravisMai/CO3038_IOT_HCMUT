@@ -28,6 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".linechart">
+
+        </activity>
         <service android:name="org.eclipse.paho.android.service.MqttService"/>
     </application>
 

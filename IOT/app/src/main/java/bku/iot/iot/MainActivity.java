@@ -2,8 +2,11 @@ package bku.iot.iot;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.angads25.toggle.interfaces.OnToggledListener;
@@ -27,13 +30,14 @@ class signal {
 }
 public class MainActivity extends AppCompatActivity {
     MQTTHelper mqttHelper;
-    TextView txtT, txtH, txtL, txtA, txtS, txtC;
+    Button txtTemp;
+    TextView  txtH, txtL, txtA, txtS, txtC;
     LabeledSwitch btn1, btn2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        txtT = findViewById(R.id.txtTemp);
+        txtTemp = findViewById(R.id.txtTemp);
         txtH = findViewById(R.id.txtHumi);
         txtL = findViewById(R.id.txtLight);
         txtA = findViewById(R.id.txtAI);
@@ -61,6 +65,13 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     sendDataMQTT("EmChes/feeds/nutnhan2","2");
                 }
+            }
+        });
+        txtTemp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent I = new Intent(MainActivity.this, linechart.class);
+                startActivity(I);
             }
         });
         startMQTT();
@@ -142,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                     btn2.setEnabled(false);
                 }
                 if(topic.contains("cambien1")){
-                    txtT.setText(message.toString()+"\n"+"°C");
+                    txtTemp.setText(message.toString()+"\n"+"°C");
                 }else if(topic.contains("cambien2")){
                     txtH.setText(message.toString()+"\n"+"%");
                 }else if(topic.contains("cambien3")){

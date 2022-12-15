@@ -2,8 +2,10 @@ print("Hello IoT Python")
 import sys
 from Adafruit_IO import MQTTClient
 import time
-from simple_ai import *
+import os
+# from simple_ai import *
 from uart import *
+hostname = "google.com"
 
 AIO_FEED_ID = ["nutnhan1", "nutnhan2", "signal"]
 AIO_USERNAME = "EmChes"
@@ -30,6 +32,7 @@ def message(client , feed_id , payload):
     else:        
         uart_write(payload)
 
+lmeo = 0;
 client = MQTTClient(AIO_USERNAME , AIO_KEY)
 client.on_connect = connected
 client.on_disconnect = disconnected
@@ -41,25 +44,29 @@ counter_sensor = 30
 counter_ai = 10
 counter_connect = 10
 while True:
-    time.sleep(1)
-    readSerial()            
-    counter_sensor = counter_sensor - 1
-    if counter_sensor <=0:
-        counter_sensor = 30
-        lux = getLux()
-        client.publish("cambien3", lux)
-    if counter_sensor == 20:
-        humi = getHumi()
-        client.publish("cambien2", humi)
-    if counter_sensor == 10:
-        temp = getTemp()
-        client.publish("cambien1", temp)
+    if (os.system("ping -n 1 " + hostname) == False):
+        time.sleep(1)
+        readSerial()            
+        counter_sensor = counter_sensor - 1
+        if counter_sensor <=0:
+            counter_sensor = 30
+            lux = getLux()
+            client.publish("cambien3", lux)
+        if counter_sensor == 20:
+            humi = getHumi()
+            client.publish("cambien2", humi)
+        if counter_sensor == 10:
+            temp = getTemp()
+            client.publish("cambien1", temp)
+    else:
+        client.connect()
+        time.sleep(10)
 
-    counter_ai = counter_ai - 1
-    if counter_ai <=0:
-        counter_ai = 15
-        image_capture()
-        ai_result = image_detector()
-        client.publish("AI", ai_result)
+    # counter_ai = counter_ai - 1
+    # if counter_ai <=0:
+    #     counter_ai = 15
+    #     image_capture()
+    #     ai_result = image_detector()
+    #     client.publish("AI", ai_result)
 
     pass
